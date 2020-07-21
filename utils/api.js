@@ -1,31 +1,5 @@
 import { AsyncStorage } from 'react-native';
 
-// mock decks
-const mockDecks = {
-    React: {
-        title: 'React',
-        questions: [
-        {
-            question: 'What is React?',
-            answer: 'A library for managing user interfaces'
-        },
-        {
-            question: 'Where do you make Ajax requests in React?',
-            answer: 'The componentDidMount lifecycle event'
-        }
-        ]
-    },
-    JavaScript: {
-        title: 'JavaScript',
-        questions: [
-        {
-            question: 'What is a closure?',
-            answer: 'The combination of a function and the lexical environment within which that function was declared.'
-        }
-        ]
-    }
-}
-
 // storage key
 const DECKS_STORAGE_KEY = 'decks';
 
@@ -40,11 +14,10 @@ export async function getDecks() {
 }
 
 /* take in a single id argument and return the deck associated with that id
-const getDeck = async (id) => {
+async function getDeck(id) {
     try {
-        const decks = await AsyncStorage.getItem(DECKS_STORAGE_KEY)
-        const deck = decks.find(id)
-        return deck != null ? JSON.parse(deck) : null
+        const decks = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
+        return decks !== null ? JSON.parse(decks[id]) : null;
     } catch(err) {
         console.log('ERROR: ', err)
     }
@@ -74,12 +47,30 @@ export async function saveDeckTitle(title) {
  * take in two arguments, title and card,
  * and add the card to the list of questions for the deck
  * with the associated title */ 
-/*const addCardToDeck = async (title, card) => {
+export async function addCardToDeck(title, card) {
+    let updatedQuestions = []
+
     try {
-        // TODO
+        const data = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
+        
+        if (data !== null) {
+            const decks = JSON.parse(data)
+            updatedQuestions = decks[title].questions  
+        }
+
+        updatedQuestions.push(card)
+
+        await AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
+            [title]: {
+                questions: updatedQuestions,
+            }
+        }))
     } catch(err) {
         console.log('ERROR: ', err)
     }
     
     console.log('Add Card done.')
-}*/
+}
+
+// Empty storage if necessary
+// AsyncStorage.removeItem(DECKS_STORAGE_KEY)

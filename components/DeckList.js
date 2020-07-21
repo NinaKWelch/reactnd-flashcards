@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { getDecks } from '../utils/api';
-import { View, FlatList, Text, StyleSheet, PickerIOSItem } from 'react-native';
+import {
+    View,
+    FlatList,
+    Text,
+    StyleSheet
+} from 'react-native';
 import DeckListItem from './DeckListItem';
 
 const DeckList = ({ navigation }) => {
@@ -35,10 +40,10 @@ const DeckList = ({ navigation }) => {
     );
 }
 
+export default DeckList;
+
 const styles = StyleSheet.create({
     container: {
         padding: 5,
     },
 })
-
-export default DeckList;

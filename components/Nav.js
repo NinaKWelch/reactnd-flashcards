@@ -9,6 +9,7 @@ const Nav = () => {
     return (
         <Tab.Navigator>
             <Tab.Screen name="Decks" component={DeckList} />
+            
             <Tab.Screen name="New Deck" component={NewDeck} />
         </Tab.Navigator>
     );

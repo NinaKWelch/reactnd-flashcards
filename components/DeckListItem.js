@@ -1,7 +1,14 @@
 import React from 'react';
-import { TouchableHighlight, View, Text, StyleSheet } from 'react-native';
+import {
+    TouchableHighlight,
+    View,
+    Text,
+    StyleSheet
+} from 'react-native';
 
 const DeckListItem = ({ deck, navigation }) => {
+    const { questions } = deck;
+
     return (
         <TouchableHighlight
             activeOpacity={0.6}
@@ -10,17 +17,22 @@ const DeckListItem = ({ deck, navigation }) => {
             onPress={() => {
                 navigation.navigate('Deck', {
                     itemId: deck.title,
-                    deck: deck,
+                    deck,
                 });
             }}
         >
             <View>
                 <Text style={styles.text}>{deck.title}</Text>
-                <Text>{deck.questions.length} cards</Text>
+
+                <Text>
+                    {questions.length} {questions.length === 1 ? 'Card' : 'Cards'}
+                </Text>
             </View>
         </TouchableHighlight>
-    )
+    );
 }
+
+export default DeckListItem;
 
 const styles = StyleSheet.create({
     row: {
@@ -28,5 +40,3 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
 })
-
-export default DeckListItem;

@@ -38,4 +38,5 @@ const App = () => {
     </NavigationContainer>
   );
 }
+
 export default App;
