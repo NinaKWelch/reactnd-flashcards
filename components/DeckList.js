@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { getDecks } from '../utils/api';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getDecks } from '../utils/decks';
+import { receiveDecks } from '../actions';
 import {
     View,
     FlatList,
@@ -8,42 +10,62 @@ import {
 } from 'react-native';
 import DeckListItem from './DeckListItem';
 
-const DeckList = ({ navigation }) => {
-    const [decks, setDecks] = useState(null);
-    console.log('DECKS: ', decks)
-  
+const DeckList = (props) => {
+    const { decks, navigation } = props
+    
     const getDataFromStorage = async () => {
-      const data = await getDecks();
-      setDecks(data);
-    };
+        // get decks from local storage
+        const data = await getDecks();
+        
+        // dispatch decks to store
+        props.receiveDecks(data);
+    }
   
     useEffect(() => {
-      getDataFromStorage();
-    }, [])
+        getDataFromStorage();
+    }, []);
+
+    console.log('DECKS: ', decks)
 
     const renderitem = ({ item }) => (
         <DeckListItem deck={item} navigation={navigation} />
     );
 
+    if (!decks) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.text}>
+                    No Decks. Add some!
+                </Text>
+            </View> 
+        );
+    }
+
     return (
-        <View style={styles.container}>
-            {!decks ? (
-                <Text>No Decks</Text>
-            ) : (
-                <FlatList
-                    data={Object.keys(decks).map(deck => decks[deck])}
-                    renderItem={renderitem}
-                    keyExtractor={item => item.title}
-                />
-            )}
-        </View>
-    );
+        <FlatList
+            style={styles.list}
+            data={Object.keys(decks).map(deck => decks[deck])}
+            renderItem={renderitem}
+            keyExtractor={item => item.title}
+        />
+    )
 }
 
-export default DeckList;
+const mapStateToProps = (decks) => {
+    return {
+        decks,
+    };
+};
+
+export default connect(mapStateToProps, { receiveDecks })(DeckList);
 
 const styles = StyleSheet.create({
     container: {
-        padding: 5,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
+    text: {
+        fontSize: 16,
+    }
 })

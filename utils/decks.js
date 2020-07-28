@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 
 // storage key
-const DECKS_STORAGE_KEY = 'decks';
+const DECKS_STORAGE_KEY = 'localdecks';
 
 // return all of the decks along with their titles, questions, and answers
 export async function getDecks() {
@@ -13,17 +13,19 @@ export async function getDecks() {
     }
 }
 
-/* take in a single id argument and return the deck associated with that id
-async function getDeck(id) {
+// take in a single id argument and return the deck associated with that id
+export async function getDeck(id) {
     try {
-        const decks = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
-        return decks !== null ? JSON.parse(decks[id]) : null;
+        const data = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
+
+        if (data !== null) {
+            const decks = JSON.parse(data);
+            return decks[id];
+        }
     } catch(err) {
         console.log('ERROR: ', err)
     }
-
-    console.log('Deck done.')
-} */
+} 
 
 // take in a single title argument and add it to the decks
 export async function saveDeckTitle(title) {
@@ -36,11 +38,11 @@ export async function saveDeckTitle(title) {
         await AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
             [title]: newDeck
         }))
+
+        console.log('NEW DECK ADDED')
     } catch(err) {
         console.log('ERROR: ', err)
     }
-    
-    console.log('Add Deck done.')
 }
 
 /**
@@ -65,11 +67,11 @@ export async function addCardToDeck(title, card) {
                 questions: updatedQuestions,
             }
         }))
+
+        console.log('NEW CARD ADDED')
     } catch(err) {
         console.log('ERROR: ', err)
     }
-    
-    console.log('Add Card done.')
 }
 
 // Empty storage if necessary

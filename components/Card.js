@@ -11,7 +11,7 @@ const Card = ({ card }) => {
 
     return (
         <View style={styles.container}>
-            <Text>{value ? card.answer : card.question}</Text>
+            <Text style={styles.text}>{value ? card.answer : card.question}</Text>
 
             <Button
                 title={value ? 'Question' : 'Answer'}
@@ -26,6 +26,13 @@ export default Card;
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        marginTop: 50,
+    },
+    text: {
+        marginBottom: 50,
+        textAlign: 'center',
+        fontSize: 18,
+        fontWeight: '500',
+
     },
 });
