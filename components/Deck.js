@@ -4,12 +4,10 @@ import {
     View,
     Text,
     Button,
-    StyleSheet
-} from 'react-native';
+    StyleSheet } from 'react-native';
 
 const Deck = (props) => {
-    const { navigation } = props;
-    const { deck } = props;
+    const { navigation, deck } = props;
     const { questions, title } = deck;
 
     return (
@@ -50,6 +48,7 @@ const Deck = (props) => {
 
 const mapStateToProps = (decks, { route }) => {
     const id = route.params.itemId;
+
     return {
         deck: decks[id],
     };

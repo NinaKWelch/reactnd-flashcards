@@ -7,8 +7,7 @@ import {
     Text,
     TextInput,
     Button,
-    StyleSheet
-} from 'react-native';
+    StyleSheet } from 'react-native';
 
 const NewCard = (props) => {
     const { route, navigation } = props;
@@ -18,6 +17,7 @@ const NewCard = (props) => {
     const [answer, setAnswer] = useState('');
 
     const updateDeck = async (id, card) => {
+        // get deck from local storage
         const deck = await getDeck(id);
 
         const updatedDeck = {

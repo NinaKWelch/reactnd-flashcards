@@ -7,8 +7,7 @@ import {
     Text,
     TextInput,
     Button,
-    StyleSheet
-} from 'react-native';
+    StyleSheet } from 'react-native';
 
 const NewDeck = (props) => {
     const { navigation } = props;

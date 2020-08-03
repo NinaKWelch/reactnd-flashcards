@@ -3,8 +3,7 @@ import {
     TouchableHighlight,
     View,
     Text,
-    StyleSheet
-} from 'react-native';
+    StyleSheet } from 'react-native';
 
 const DeckListItem = ({ deck, navigation }) => {
     const { title, questions } = deck;

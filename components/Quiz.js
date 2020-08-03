@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
     getLocalNotification,
-    setLocalNotification,
-    clearLocalNotification
-} from '../utils/notifications';
+    clearLocalNotification,
+    setLocalNotification } from '../utils/notifications';
 import {
     View,
     Text,
     TouchableOpacity,
-    StyleSheet
-} from 'react-native';
+    StyleSheet } from 'react-native';
 import Card from './Card';
 import Score from './Score';
 
@@ -22,46 +20,70 @@ const Quiz = ({ route }) => {
     const [index, setIndex] = useState(0);
     const [card, setCard] = useState(null);
    
-    // get the day when notification was last scheduled
+    // get the date of next scheduled notification
     const getNotificationDate = async () => {
         const date = await getLocalNotification();
         date !== null ? setDay(date) : null;
     }
 
     useEffect(() => {
-        const firstCard = questions[0];
+        // show the first card in the deck
+        const firstCard = questions[index];
         setCard(firstCard);
-        
+
         getNotificationDate();
     }, [])
 
-    // clear current notification
-    // and reschedule it for the next day
-    const setNewNotification = async () => {
+    // clear notifications before rescheduling
+    const clearNotifications = async () => {
         await clearLocalNotification();
+    }
+
+    // reschedule notification
+    const setNewNotification = async () => {
         await setLocalNotification();
     }
    
     const changeCard = () => {
+        const i = index + 1;
+        const newCard = questions[i]
+
+        // check if scheduled notification date
+        // is the current date
         if (day === today) {
+            clearNotifications();
             setNewNotification();
         }
 
-        const newCard = questions[index + 1]
+        // show the next card in the deck
+        setIndex(i);
         setCard(newCard);
     }
 
     const addToScore = (value) => {
+        // add a point to the score
+        // if user answered correctly
         if (value) {
             setScore(score + 1);
         }
         
-        setIndex(index + 1);
+        // move to the next card
         changeCard();
     }
 
+    const resetQuiz = () => {
+        setScore(0);
+        setIndex(0);
+        setCard(questions[0]);
+    }
+
     if (!card) {
-        return <Score score={score} />
+        return (
+            <Score
+                score={(score/questions.length * 100).toFixed(0)}
+                handleResetQuiz={resetQuiz}
+            />
+        )
     }
 
     return (

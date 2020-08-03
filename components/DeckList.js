@@ -6,8 +6,7 @@ import {
     View,
     FlatList,
     Text,
-    StyleSheet
-} from 'react-native';
+    StyleSheet } from 'react-native';
 import DeckListItem from './DeckListItem';
 
 const DeckList = (props) => {
@@ -24,8 +23,6 @@ const DeckList = (props) => {
     useEffect(() => {
         getDataFromStorage();
     }, []);
-
-    console.log('DECKS: ', decks)
 
     const renderitem = ({ item }) => (
         <DeckListItem deck={item} navigation={navigation} />

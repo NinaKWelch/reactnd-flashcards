@@ -45,6 +45,27 @@ async function askPermissions() {
     }
 }
 
+// check if and when notification was set
+export async function getLocalNotification() {
+    try {
+        const notification = await AsyncStorage.getItem(NOTIFICATION_KEY);
+        return notification !== null ? JSON.parse(notification) : null;
+    } catch(err) {
+        console.log('ERROR: ', err)
+    }
+}
+
+// clear scheduled notification 
+export async function clearLocalNotification() {
+    try {
+        await AsyncStorage.removeItem(NOTIFICATION_KEY);
+        Notifications.cancelAllScheduledNotificationsAsync()
+        console.log('OLD NOTIFICATION CLEARED')
+    } catch(err) {
+        console.log('ERROR: ', err)
+    }
+}
+
 /**
  * reschedule the daily notification
  * to appear 6pm the next day
@@ -56,11 +77,16 @@ export async function setLocalNotification() {
     if (notification === null) {
         // check permissions
         const status = await askPermissions();
+        
+        if (!status) {
+            // if permission was denied
+            // set the object key to 0 (no date)
+            AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(0));
+            console.log('PERMISSION DENIED')
+        }
        
         if (Constants.isDevice && status) {
-            // set date for next notificatiom
-            const date = new Date().getDate() + 1;
-
+            // if permission was given
             // set daily notification schedule
             let tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1)
@@ -75,32 +101,12 @@ export async function setLocalNotification() {
                     repeat: 'day',
                 }
             )
-            
-            // store the date, when new notification was set
+
+            // set the object key to the date of scheduled notification
+            const date = new Date().getDate() + 1;
+        
             AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(date));
             console.log('NEW NOTIFICATION SET')
         }
-    }
-}
-
-// check if and when notification was set
-export async function getLocalNotification() {
-    try {
-        const notification = await AsyncStorage.getItem(NOTIFICATION_KEY);
-        return notification !== null ? JSON.parse(notification) : null;
-        
-    } catch(err) {
-        console.log('ERROR: ', err)
-    }
-}
-
-// clear scheduled notification 
-export async function clearLocalNotification() {
-    try {
-        await AsyncStorage.removeItem(NOTIFICATION_KEY);
-        Notifications.cancelAllScheduledNotificationsAsync()
-        console.log('OLD NOTIFICATION CLEARED')
-    } catch(err) {
-        console.log('ERROR: ', err)
     }
 }

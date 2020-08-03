@@ -3,15 +3,16 @@ import {
     Text,
     View,
     Button,
-    StyleSheet
-} from 'react-native';
+    StyleSheet } from 'react-native';
 
 const Card = ({ card }) => {
     const [value, setValue]  = useState(false);
 
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>{value ? card.answer : card.question}</Text>
+            <Text style={styles.text}>
+                {value ? card.answer : card.question}
+            </Text>
 
             <Button
                 title={value ? 'Question' : 'Answer'}
@@ -33,6 +34,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 18,
         fontWeight: '500',
-
     },
 });
