@@ -8,7 +8,6 @@ import reducer from './reducers';
 import Nav from './components/Nav';
 import Deck from './components/Deck';
 import Quiz from './components/Quiz';
-import Score from './components/Score';
 import NewCard from './components/NewCard';
 
 const App = () => {
@@ -36,19 +35,14 @@ const App = () => {
           />
 
           <Stack.Screen
-            name="Score"
-            component={Score}
-          />
-
-          <Stack.Screen
             name="NewCard"
             component={NewCard}
             options={{ title: 'New Card' }}
-          />       
+          />
         </Stack.Navigator>
       </NavigationContainer>
-    </Provider> 
+    </Provider>
   );
-}
+};
 
 export default App;
