@@ -67,12 +67,14 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   title: {
+    textAlign: 'center',
     marginBottom: 15,
     fontSize: 22,
     fontWeight: '500',
     color: 'purple',
   },
   text: {
+    textAlign: 'center',
     fontSize: 16,
   },
 });
