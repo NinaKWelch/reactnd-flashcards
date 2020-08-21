@@ -16,7 +16,7 @@ const Card = ({ card }) => {
       </Text>
 
       <Button
-        title={value ? 'Question' : 'Answer'}
+        title={value ? 'Show Question' : 'Show Answer'}
         color="red"
         onPress={() => setValue(!value)}
       />

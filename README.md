@@ -8,10 +8,6 @@ Set up a Quiz by creating a New Deck and adding some Cards with questions and an
 
 Take the Quiz and check your Score. Repeat until you've mastered the subject!
 
-## Screenshots
-
-width 375
-
 ## Install & Launch
 
 This app has been tested on iPhone SE using Expo client application.

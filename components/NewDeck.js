@@ -31,7 +31,9 @@ const NewDeck = (props) => {
       // dispatch deck to store
       props.addDeck(newDeck);
 
-      navigation.navigate('Decks');
+      navigation.navigate('Deck', {
+        itemId: title,
+      });
     } else {
       Alert.alert(
         'Change Your Title',
@@ -56,7 +58,7 @@ const NewDeck = (props) => {
       />
 
       <Button
-        title="Submit"
+        title="Create Deck"
         onPress={createNewDeck}
         disabled={title === ''}
       />
